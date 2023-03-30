@@ -6,9 +6,9 @@
  */
 
 public class DatabaseLoginData {
-    static String user = "";
-    static String password = "";
-    static String port = "";
-    static String DBname = "";
-    static String DBURL = "";
+    static String user = "te20";
+    static String password = "HeZs7Ge7evA2";
+    static String port = "3306";
+    static String DBname = "te20";
+    static String DBURL = "db.umea-ntig.se";
 }
