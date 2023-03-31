@@ -1,83 +1,86 @@
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Model {
 
-    int forumId;
-    String forumContent;
-    String forumTitel;
-    Timestamp forumcreatedAt;
-    int userId;
-    String usersName;
-    String usersPassword;
+    ArrayList<Integer> forumId = new ArrayList<>();
+    ArrayList<String> forumContent = new ArrayList<>();
+    ArrayList<String> forumTitel = new ArrayList<>();
+    ArrayList<Timestamp> forumcreatedAt = new ArrayList<>();
+    ArrayList<Integer> userId = new ArrayList<>();
+    ArrayList<String> usersName = new ArrayList<>();
+    ArrayList<String> usersPassword = new ArrayList<>();
+    ArrayList<Integer> forumdId = new ArrayList<>();
 
-    public int getForumId() {
+    public ArrayList<Integer> getForumId() {
         return forumId;
     }
 
-    public void setForumId(int forumId) {
+    public void setForumId(ArrayList<Integer> forumId) {
         this.forumId = forumId;
     }
 
-    public String getForumContent() {
+    public ArrayList<String> getForumContent() {
         return forumContent;
     }
 
-    public void setForumContent(String forumContent) {
+    public void setForumContent(ArrayList<String> forumContent) {
         this.forumContent = forumContent;
     }
 
-    public String getForumTitel() {
+    public ArrayList<String> getForumTitel() {
         return forumTitel;
     }
 
-    public void setForumTitel(String forumTitel) {
+    public void setForumTitel(ArrayList<String> forumTitel) {
         this.forumTitel = forumTitel;
     }
 
-    public Timestamp getForumcreatedAt() {
+    public ArrayList<Timestamp> getForumcreatedAt() {
         return forumcreatedAt;
     }
 
-    public void setForumcreatedAt(Timestamp forumcreatedAt) {
+    public void setForumcreatedAt(ArrayList<Timestamp> forumcreatedAt) {
         this.forumcreatedAt = forumcreatedAt;
     }
 
-    public int getUserId() {
+    public ArrayList<Integer> getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(ArrayList<Integer> userId) {
         this.userId = userId;
     }
 
-    public String getUsersName() {
+    public ArrayList<String> getUsersName() {
         return usersName;
     }
 
-    public void setUsersName(String usersName) {
+    public void setUsersName(ArrayList<String> usersName) {
         this.usersName = usersName;
     }
 
-    public String getUsersPassword() {
+    public ArrayList<String> getUsersPassword() {
         return usersPassword;
     }
 
-    public void setUsersPassword(String usersPassword) {
+    public void setUsersPassword(ArrayList<String> usersPassword) {
         this.usersPassword = usersPassword;
     }
 
+    public ArrayList<Integer> getForumdId() {
+        return forumdId;
+    }
 
-    public static void main(String[] args) {
+    public void setForumdId(ArrayList<Integer> forumdId) {
+        this.forumdId = forumdId;
+    }
+
+    public void forum() {
+
         Connection conn = null;
-
-
-        // Set up connection to database
         try {
-            /*conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bookshop"+
-                            "? allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
-                    user,password);
-*/
             conn = DriverManager.getConnection("jdbc:mysql://" + DatabaseLoginData.DBURL + ":" + DatabaseLoginData.port + "/" + DatabaseLoginData.DBname +
                             "? allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC",
                     DatabaseLoginData.user, DatabaseLoginData.password);
@@ -91,23 +94,22 @@ public class Model {
             Statement stmt = conn.createStatement();
             String SQLQuery = "SELECT lj04forum.*, lj04users.name FROM lj04forum JOIN lj04users ON lj04forum.authorId = lj04users.id";
             ResultSet result = stmt.executeQuery(SQLQuery);
-
-
             ResultSetMetaData metadata = result.getMetaData();
 
             int numCols = metadata.getColumnCount();
-            for (int i = 1 ; i <= numCols ; i++) {
+            for (int i = 1; i <= numCols; i++) {
                 System.out.println(metadata.getColumnClassName(i));
             }
 
+            int i = 0;
+
             while (result.next()) {
-                String output = "";
-                output += result.getInt("id") + ", " +
-                        result.getString("content") + ", " +
-                        result.getString("title") + ", " +
-                        result.getTimestamp("createdAt") + ", " +
-                        result.getString("name");
-                System.out.println(output);
+                forumdId.add(result.getInt("id"));
+                forumContent.add(result.getString("content"));
+                forumTitel.add(result.getString("title"));
+                forumcreatedAt.add(result.getTimestamp("createdAt"));
+                usersName.add(result.getString("name"));
+                i++;
             }
 
             stmt.close();
@@ -116,4 +118,17 @@ public class Model {
             e.printStackTrace();
         }
     }
-}
+
+    public void printarrays() {
+        for (int i = 0; i < forumdId.size(); i++) {
+            System.out.println(forumTitel.get(i) + forumContent.get(i) + forumcreatedAt.get(i) + usersName.get(i));
+        }
+    }
+
+    public static void main(String[] args) {
+        Model main = new Model();
+        Connection conn = null;
+        main.forum();
+        main.printarrays();
+
+    }}
