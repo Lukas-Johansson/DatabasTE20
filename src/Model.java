@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -119,10 +118,12 @@ public class Model {
         }
     }
 
-    public void printarrays() {
+    public String printarrays() {
+        String msg = null;
         for (int i = 0; i < forumdId.size(); i++) {
-            System.out.println(forumTitel.get(i) + forumContent.get(i) + forumcreatedAt.get(i) + usersName.get(i));
+            msg = forumTitel.get(i) + forumContent.get(i) + forumcreatedAt.get(i) + usersName.get(i);
         }
+        return msg;
     }
 
     public static void main(String[] args) {
